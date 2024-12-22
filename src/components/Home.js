@@ -5,7 +5,7 @@ import { FaDesktop, FaFileInvoice, FaCogs, FaWarehouse, FaWrench, FaSignOutAlt }
 
 const Home = () => {
     const [activeLink, setActiveLink] = useState("/"); // Estado para la navegación activa
-    const navigate = useNavigate();  // Inicializa useNavigate para redirigir
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         // Eliminar el token de localStorage
