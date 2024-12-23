@@ -1,29 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Home from './components/Home';
+import Login from './views/Login';
+import Home from './views/Home';
+import Machines from './views/Machines';
+import Billing from './views/Billing';
 
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importa los estilos de Bootstrap
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    // Comprobamos si hay un token en el almacenamiento local
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            setIsAuthenticated(true);  // Si hay token, el usuario está autenticado
+            setIsAuthenticated(true);
         }
+        setLoading(false);
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Router>
             <Routes>
-                {/* Si el usuario está autenticado, se redirige a Home, si no, al Login */}
-                <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
-                <Route path="/login" element={<Login />} /> {/* Ruta para Login */}
-                <Route path="/home" element={isAuthenticated ? <Home /> : <Login />} /> {/* Ruta para Home */}
+                <Route
+                    path="/"
+                    element={isAuthenticated ? <Home /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route
+                    path="/login"
+                    element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route
+                    path="/home"
+                    element={isAuthenticated ? <Home /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route
+                    path="/machines"
+                    element={isAuthenticated ? <Machines /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route
+                    path="/billing"
+                    element={isAuthenticated ? <Billing /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+                />
             </Routes>
         </Router>
     );
